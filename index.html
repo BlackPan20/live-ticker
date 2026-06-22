@@ -750,6 +750,98 @@
           min-width: calc(50% - 5px);
         }
       }
+      /* Additional adjustments for very small screens */
+      @media (max-width: 480px) {
+        .page {
+          width: calc(100% - 16px);
+          padding: 12px 0 24px;
+        }
+
+        .brand-mark {
+          width: 40px;
+          height: 40px;
+          border-radius: 12px;
+          font-size: 0.95rem;
+        }
+
+        .topbar {
+          padding: 10px 12px;
+          gap: 10px;
+        }
+
+        .hero-title {
+          font-size: clamp(1.25rem, 6vw, 1.9rem);
+        }
+
+        .hero-copy {
+          padding: 12px 8px;
+        }
+
+        .panel,
+        .hero,
+        .section-card,
+        .scoreboard,
+        .results,
+        .manage-box,
+        .overview-box {
+          padding: 12px 12px;
+          border-radius: 14px;
+        }
+
+        .score-value {
+          font-size: clamp(1.6rem, 9vw, 2.2rem);
+        }
+
+        .score-badge {
+          min-width: auto;
+          padding: 10px 12px;
+          flex: 1 1 auto;
+        }
+
+        .score-wrap {
+          width: 100%;
+          gap: 8px;
+          align-items: center;
+        }
+
+        .match-up {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+        }
+
+        .table-row {
+          grid-template-columns: 1fr;
+          align-items: start;
+        }
+
+        .nav-panel {
+          position: absolute;
+          left: 12px;
+          right: 12px;
+          top: calc(100% + 8px);
+          background: var(--surface-strong);
+          border-radius: 12px;
+          padding: 10px;
+          box-shadow: var(--shadow);
+          display: none;
+        }
+
+        .nav-panel.is-open {
+          display: block;
+        }
+
+        .nav-links a,
+        .nav-links button {
+          padding: 8px 10px;
+          border-radius: 10px;
+          background: transparent;
+        }
+
+        .menu-backdrop {
+          /* keep backdrop controlled by .menu-open */
+        }
+      }
     </style>
   </head>
   <body>

@@ -1,0 +1,90 @@
+{
+  "currentGameId": "game-1",
+  "teams": [
+    {
+      "id": "alpha",
+      "name": "Team Alpha",
+      "logoUrl": ""
+    },
+    {
+      "id": "beta",
+      "name": "Team Beta",
+      "logoUrl": ""
+    },
+    {
+      "id": "gamma",
+      "name": "Team Gamma",
+      "logoUrl": ""
+    },
+    {
+      "id": "delta",
+      "name": "Team Delta",
+      "logoUrl": ""
+    }
+  ],
+  "standings": [
+    {
+      "teamId": "alpha",
+      "points": 34,
+      "played": 18,
+      "goalDiff": 18
+    },
+    {
+      "teamId": "beta",
+      "points": 31,
+      "played": 18,
+      "goalDiff": 10
+    },
+    {
+      "teamId": "gamma",
+      "points": 29,
+      "played": 18,
+      "goalDiff": 6
+    },
+    {
+      "teamId": "delta",
+      "points": 24,
+      "played": 18,
+      "goalDiff": -2
+    }
+  ],
+  "games": [
+    {
+      "id": "game-1",
+      "homeTeamId": "alpha",
+      "awayTeamId": "beta",
+      "status": "live",
+      "minute": 78,
+      "publicScore": "1 : 0",
+      "actualScore": "2 : 1",
+      "title": "Team Alpha gegen Team Beta"
+    },
+    {
+      "id": "game-2",
+      "homeTeamId": "gamma",
+      "awayTeamId": "delta",
+      "status": "fertig",
+      "minute": 90,
+      "publicScore": "3 : 2",
+      "actualScore": "3 : 2",
+      "title": "Team Gamma gegen Team Delta"
+    }
+  ],
+  "lastGames": [
+    {
+      "title": "Team Gamma gegen Team Delta",
+      "date": "21.06.2026",
+      "score": "3 : 2"
+    },
+    {
+      "title": "Team Alpha gegen Team Delta",
+      "date": "18.06.2026",
+      "score": "2 : 0"
+    },
+    {
+      "title": "Team Beta gegen Team Gamma",
+      "date": "14.06.2026",
+      "score": "1 : 1"
+    }
+  ]
+}

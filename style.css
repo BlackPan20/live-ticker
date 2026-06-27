@@ -1,0 +1,77 @@
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,Arial,sans-serif;
+  background:#0f172a;
+  color:#e2e8f0;
+}
+a,button{font:inherit}
+a{
+  color:#93c5fd;
+  text-decoration:none;
+}
+button,input,select{
+  padding:.8rem 1rem;
+  border-radius:12px;
+  border:1px solid #334155;
+  background:#111827;
+  color:#e2e8f0;
+}
+button{
+  cursor:pointer;
+  background:#2563eb;
+  border:none;
+}
+button.ghost{background:#334155}
+button.danger{background:#dc2626}
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  gap:1rem;
+  align-items:center;
+  padding:1rem 1.25rem;
+  border-bottom:1px solid #334155;
+  background:#111827;
+  position:sticky;
+  top:0;
+}
+.layout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1rem;
+  padding:1rem;
+}
+.layout.single{grid-template-columns:1fr}
+.card{
+  background:#111827;
+  border:1px solid #334155;
+  border-radius:20px;
+  padding:1rem;
+}
+.grid{display:grid;gap:.75rem}
+.grid.two{grid-template-columns:1fr 1fr}
+.actions{
+  display:flex;
+  gap:.75rem;
+  flex-wrap:wrap;
+}
+.hidden{display:none}
+.msg{
+  min-height:1.2em;
+  color:#fca5a5;
+}
+.group,.ticker-box{
+  background:#0b1220;
+  border:1px solid #334155;
+  border-radius:16px;
+  padding:.75rem;
+  margin:.75rem 0;
+}
+ul{
+  margin:.5rem 0 0 1.2rem;
+  padding:0;
+}
+@media (max-width:900px){
+  .layout,.grid.two{grid-template-columns:1fr}
+  .topbar{flex-direction:column;align-items:flex-start}
+}

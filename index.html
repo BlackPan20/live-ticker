@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tunierseite</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Tunierseite</h1>
+      <p>Teams, Gruppenphase, Punkte und Live-Ticker</p>
+    </div>
+    <nav>
+      <a href="#player">Player</a>
+      <a href="#ticker">Ticker</a>
+      <a href="/admin.html">Admin</a>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <section class="card" id="player">
+      <h2>Player Area</h2>
+      <div id="publicState"></div>
+    </section>
+
+    <section class="card" id="ticker">
+      <h2>Live-Ticker</h2>
+      <div id="tickerState"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -39,7 +39,7 @@
           </form>
         </div>
         <div>
-          <h3>Spiel auswählen</h3>
+          <h3>Aktives Spiel</h3>
           <form id="matchForm" class="grid">
             <select id="matchSelect"></select>
             <input type="text" id="matchNote" placeholder="Spielinfo / Beschreibung" />
@@ -47,6 +47,40 @@
           </form>
         </div>
       </div>
+
+      <section>
+        <h3>Neues Spiel anlegen</h3>
+        <form id="matchCreateForm" class="grid two">
+          <select id="matchStage">
+            <option value="final">Finale</option>
+            <option value="semifinal">Halbfinale</option>
+            <option value="quarterfinal">Viertelfinale</option>
+            <option value="placement">Spiel um Platz 3</option>
+            <option value="group">Gruppenphase</option>
+            <option value="custom">Eigenes Spiel</option>
+          </select>
+          <input type="text" id="matchLabel" placeholder="Titel, z. B. Finale A" />
+          <select id="homeTeamSelect"></select>
+          <select id="awayTeamSelect"></select>
+          <input type="text" id="createMatchNote" placeholder="Hinweis zum Spiel" class="span-2" />
+          <button type="submit" class="span-2">Spiel anlegen</button>
+        </form>
+      </section>
+
+      <section>
+        <h3>Tore buchen</h3>
+        <div id="goalControls"></div>
+      </section>
+
+      <section>
+        <h3>Gruppenplan</h3>
+        <div id="groupSchedule"></div>
+      </section>
+
+      <section>
+        <h3>Qualifizierte Teams</h3>
+        <div id="qualifiedTeams"></div>
+      </section>
 
       <section>
         <h3>Turniersteuerung</h3>

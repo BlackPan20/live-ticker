@@ -46,6 +46,7 @@ loginForm.addEventListener('submit', async e => {
   const h = await sha256(pw);
 
   if(h === passwordHash){
+    window.currentAdminPassword = pw; // Speichere Passwort für API
     sessionStorage.setItem(ADMIN_KEY, '1');
     loginMsg.textContent = 'Login erfolgreich';
     showAdmin(true);
@@ -56,6 +57,7 @@ loginForm.addEventListener('submit', async e => {
 });
 
 logoutBtn.addEventListener('click', () => {
+  window.currentAdminPassword = ''; // Lösche Passwort
   sessionStorage.removeItem(ADMIN_KEY);
   location.reload();
 });

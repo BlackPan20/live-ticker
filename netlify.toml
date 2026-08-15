@@ -1,5 +1,6 @@
 [build]
 publish = "."
+functions = "netlify/functions"
 
 [[headers]]
 for = "/*.html"
@@ -17,4 +18,9 @@ status = 200
 [[redirects]]
 from = "/ticker"
 to = "/ticker.html"
+status = 200
+
+[[redirects]]
+from = "/neu"
+to = "/neu.html"
 status = 200

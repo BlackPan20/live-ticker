@@ -1,5 +1,10 @@
 const STORE_KEY = 'tournament_data_v1';
 
+// Globale Variable für Admin-Passwort (wird von admin.js gesetzt)
+if (typeof window !== 'undefined') {
+  window.currentAdminPassword = '';
+}
+
 const STAGE_LABELS = {
   group: 'Gruppenphase',
   quarterfinal: 'Viertelfinale',
@@ -244,8 +249,26 @@ function recalculateStandings(data){
 }
 
 async function loadData(){
+  try {
+    // Versuche von API zu laden
+    const response = await fetch('/.netlify/functions/data', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      // Speichere auch lokal für Offline-Support
+      localStorage.setItem(STORE_KEY, JSON.stringify(data));
+      return normalizeData(data);
+    }
+  } catch (err) {
+    console.log('API nicht verfügbar, nutze localStorage');
+  }
+
+  // Fallback auf localStorage
   const raw = localStorage.getItem(STORE_KEY);
-  if(!raw) return normalizeData(defaultData());
+  if (!raw) return normalizeData(defaultData());
 
   try {
     return normalizeData(JSON.parse(raw));
@@ -254,10 +277,34 @@ async function loadData(){
   }
 }
 
-async function saveData(data){
+async function saveData(data, adminPassword = ''){
   const normalized = normalizeData(data);
   normalized.updatedAt = new Date().toISOString();
+
+  // Speichere lokal
   localStorage.setItem(STORE_KEY, JSON.stringify(normalized));
+
+  // Nutze globales Passwort, falls keines übergeben wurde
+  const password = adminPassword || (typeof window !== 'undefined' ? window.currentAdminPassword : '');
+
+  // Versuche auch auf API zu speichern
+  try {
+    const response = await fetch('/.netlify/functions/data', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        data: normalized,
+        adminPassword: password
+      })
+    });
+
+    if (!response.ok) {
+      console.warn('Daten konnten nicht auf API gespeichert werden');
+    }
+  } catch (err) {
+    console.log('API nicht verfügbar, Daten lokal gespeichert');
+  }
+
   return normalized;
 }
 

@@ -315,6 +315,18 @@
    STATE
 ========================================================= */
 const STORAGE_KEY = 'tournament-state-v1';
+
+// localStorage Storage-Adapter
+window.storage = {
+  get: async (key, remote) => {
+    const value = localStorage.getItem(key);
+    return value ? { value } : null;
+  },
+  set: async (key, value, remote) => {
+    localStorage.setItem(key, value);
+  }
+};
+
 let state = null;
 let currentTab = 'ticker';
 let adminUnlocked = false;
@@ -346,16 +358,35 @@ function defaultState(){
 }
 
 async function loadState(remoteOnly){
+  // Wenn remoteOnly=true, lade NUR von der API (für Polling)
+  if(remoteOnly){
+    try{
+      const response = await fetch('/.netlify/functions/data', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        // Speichere auch lokal für Offline-Support
+        try {
+          await window.storage.set(STORAGE_KEY, JSON.stringify(data), true);
+        } catch(e) { /* offline */ }
+        return data;
+      }
+    } catch (err) {
+      console.log('API nicht verfügbar beim Remote-Poll');
+      return null; // Rückgabe null, NICHT localStorage!
+    }
+  }
+
+  // Wenn remoteOnly=false, versuche zuerst API, dann localStorage
   try{
-    // Versuche von API zu laden
     const response = await fetch('/.netlify/functions/data', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     });
-
     if (response.ok) {
       const data = await response.json();
-      // Speichere auch lokal für Offline-Support
       try {
         await window.storage.set(STORAGE_KEY, JSON.stringify(data), true);
       } catch(e) { /* offline */ }
@@ -370,7 +401,7 @@ async function loadState(remoteOnly){
     const r = await window.storage.get(STORAGE_KEY, true);
     if(r && r.value){ return JSON.parse(r.value); }
   }catch(e){ /* not found yet */ }
-  return remoteOnly ? null : defaultState();
+  return defaultState();
 }
 
 async function saveState(){
@@ -379,7 +410,11 @@ async function saveState(){
   // Speichere lokal
   try{
     await window.storage.set(STORAGE_KEY, JSON.stringify(state), true);
-  }catch(e){ console.error('Speichern fehlgeschlagen', e); showToast('Speichern fehlgeschlagen — bitte erneut versuchen'); }
+    console.log('✓ Lokal gespeichert');
+  }catch(e){ 
+    console.error('Lokales Speichern fehlgeschlagen', e); 
+    showToast('Speichern fehlgeschlagen — bitte erneut versuchen'); 
+  }
 
   // Versuche auch auf API zu speichern (mit Admin-Passwort wenn vorhanden)
   try{
@@ -392,11 +427,14 @@ async function saveState(){
       })
     });
 
-    if (!response.ok) {
-      console.warn('Daten konnten nicht auf API gespeichert werden');
+    if (response.ok) {
+      console.log('✓ Firebase synchronisiert');
+      showToast('✓ Synchronisiert');
+    } else {
+      console.warn('API-Fehler:', response.status);
     }
   } catch (err) {
-    console.log('API nicht verfügbar, Daten lokal gespeichert');
+    console.log('API nicht verfügbar — lokal gespeichert');
   }
 }
 

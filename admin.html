@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Admin Bereich</h1>
+      <p>Nur für berechtigte Nutzer</p>
+    </div>
+    <nav>
+      <a href="/">Player</a>
+      <a href="/ticker.html">Ticker</a>
+      <button id="logoutBtn" class="ghost">Logout</button>
+    </nav>
+  </header>
+
+  <main class="layout single">
+    <section class="card" id="loginCard">
+      <h2>Login</h2>
+      <form id="loginForm" class="grid">
+        <input type="password" id="password" placeholder="Admin Passwort" required />
+        <button type="submit">Anmelden</button>
+      </form>
+      <p id="loginMsg" class="msg"></p>
+    </section>
+
+    <section class="card hidden" id="adminCard">
+      <div class="grid two">
+        <div>
+          <h3>Team anlegen</h3>
+          <form id="teamForm" class="grid">
+            <input type="text" id="teamName" placeholder="Teamname" required />
+            <button type="submit">Hinzufügen</button>
+          </form>
+        </div>
+        <div>
+          <h3>Aktives Spiel</h3>
+          <form id="matchForm" class="grid">
+            <select id="matchSelect"></select>
+            <input type="text" id="matchNote" placeholder="Spielinfo / Beschreibung" />
+            <button type="submit">Aktiv setzen</button>
+          </form>
+        </div>
+      </div>
+
+      <section>
+        <h3>Neues Spiel anlegen</h3>
+        <form id="matchCreateForm" class="grid two">
+          <select id="matchStage">
+            <option value="final">Finale</option>
+            <option value="semifinal">Halbfinale</option>
+            <option value="quarterfinal">Viertelfinale</option>
+            <option value="placement">Spiel um Platz 3</option>
+            <option value="group">Gruppenphase</option>
+            <option value="custom">Eigenes Spiel</option>
+          </select>
+          <input type="text" id="matchLabel" placeholder="Titel, z. B. Finale A" />
+          <select id="homeTeamSelect"></select>
+          <select id="awayTeamSelect"></select>
+          <input type="text" id="createMatchNote" placeholder="Hinweis zum Spiel" class="span-2" />
+          <button type="submit" class="span-2">Spiel anlegen</button>
+        </form>
+      </section>
+
+      <section>
+        <h3>Tore buchen</h3>
+        <div id="goalControls"></div>
+      </section>
+
+      <section>
+        <h3>Gruppenplan</h3>
+        <div id="groupSchedule"></div>
+      </section>
+
+      <section>
+        <h3>Qualifizierte Teams</h3>
+        <div id="qualifiedTeams"></div>
+      </section>
+
+      <section>
+        <h3>Turniersteuerung</h3>
+        <div class="actions">
+          <button id="generateGroupsBtn">Gruppen zufällig erstellen</button>
+          <button id="saveBtn">Speichern</button>
+          <button id="resetBtn" class="danger">Reset</button>
+        </div>
+      </section>
+
+      <section>
+        <h3>Daten bearbeiten</h3>
+        <div id="adminState"></div>
+      </section>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

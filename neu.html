@@ -321,6 +321,11 @@ let adminUnlocked = false;
 let lastScoreSnapshot = {};
 let pollTimer = null;
 
+// Globale Variable für Admin-Passwort (wird von admin.js/anderen gesetzt)
+if (typeof window !== 'undefined') {
+  window.currentAdminPassword = '';
+}
+
 function uid(prefix){ return prefix + '_' + Math.random().toString(36).slice(2,9); }
 
 function defaultState(){
@@ -342,16 +347,57 @@ function defaultState(){
 
 async function loadState(remoteOnly){
   try{
+    // Versuche von API zu laden
+    const response = await fetch('/.netlify/functions/data', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      // Speichere auch lokal für Offline-Support
+      try {
+        await window.storage.set(STORAGE_KEY, JSON.stringify(data), true);
+      } catch(e) { /* offline */ }
+      return data;
+    }
+  } catch (err) {
+    console.log('API nicht verfügbar, nutze localStorage');
+  }
+
+  // Fallback auf localStorage
+  try{
     const r = await window.storage.get(STORAGE_KEY, true);
     if(r && r.value){ return JSON.parse(r.value); }
   }catch(e){ /* not found yet */ }
   return remoteOnly ? null : defaultState();
 }
+
 async function saveState(){
   state.updatedAt = Date.now();
+  
+  // Speichere lokal
   try{
     await window.storage.set(STORAGE_KEY, JSON.stringify(state), true);
   }catch(e){ console.error('Speichern fehlgeschlagen', e); showToast('Speichern fehlgeschlagen — bitte erneut versuchen'); }
+
+  // Versuche auch auf API zu speichern (mit Admin-Passwort wenn vorhanden)
+  try{
+    const response = await fetch('/.netlify/functions/data', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        data: state,
+        adminPassword: window.currentAdminPassword || ''
+      })
+    });
+
+    if (!response.ok) {
+      console.warn('Daten konnten nicht auf API gespeichert werden');
+    }
+  } catch (err) {
+    console.log('API nicht verfügbar, Daten lokal gespeichert');
+  }
 }
 
 function showToast(msg){
